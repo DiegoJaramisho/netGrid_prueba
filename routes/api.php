@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Type_identificationController;
 use App\Http\Controllers\UserController;
+use App\Models\Type_identification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,8 +39,11 @@ Route::group([
 });
 
 Route::group([
-    'middleware' => 'auth',
+    // 'middleware' => 'api',
 ],function ($router) {
     Route::resource('user',UserController::class);
+    Route::resource('type_id',Type_identificationController::class);
+    Route::post('type/filtro',[Type_identificationController::class,'filtro']);
     Route::post('user/filtro',[UserController::class,'filtro']);
+
 });

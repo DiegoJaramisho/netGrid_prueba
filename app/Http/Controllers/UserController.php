@@ -51,11 +51,14 @@ class UserController extends Controller
      */
     public function index()
     {
-        return response()->json([
-            User::with(['type_identifications' => function ($query) {
-                $query->select('id','name');
-            }])->paginate()
-        ],200);
+        return response()
+            ->json(
+                User::with([
+                    'type_identifications' => function ($query) {
+                        $query->select('id','name');
+                    }])
+                ->paginate()
+            ,200);
     }
 
     /**
@@ -67,6 +70,9 @@ class UserController extends Controller
     public function store(Request $request)
     {
         try{
+            if(!isset($request->password)){
+                $request->password = '';
+            }
             $user =  User::create([
                 'user' => $request->user,
                 'name' =>  $request->name,
